@@ -1,0 +1,710 @@
+{% extends "base.html" %}
+
+{% block title %}FreshMart - Premium Organic Grocery{% endblock %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+        --bg: #0a0a0a;
+        --bg-card: rgba(255, 255, 255, 0.03);
+        --bg-glass: rgba(255, 255, 255, 0.05);
+        --border: rgba(255, 255, 255, 0.08);
+        --text: #ffffff;
+        --text-muted: rgba(255, 255, 255, 0.5);
+        --accent: #22c55e;
+        --accent-glow: rgba(34, 197, 94, 0.4);
+        --orange: #f97316;
+        --orange-glow: rgba(249, 115, 22, 0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* Main Container */
+    .main-container {
+        background: var(--bg);
+        min-height: 100vh;
+        font-family: 'Inter', sans-serif;
+        color: var(--text);
+        overflow-x: hidden;
+    }
+
+    /* Ambient Glow Background */
+    .ambient-glow {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .glow-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.15;
+    }
+
+    .glow-1 {
+        width: 600px;
+        height: 600px;
+        background: var(--accent);
+        top: -200px;
+        right: -100px;
+        animation: drift 20s infinite;
+    }
+
+    .glow-2 {
+        width: 500px;
+        height: 500px;
+        background: var(--orange);
+        bottom: -100px;
+        left: -100px;
+        animation: drift 25s infinite reverse;
+    }
+
+    @keyframes drift {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(50px, -30px) scale(1.1); }
+    }
+
+    /* Glass Card Base */
+    .glass-panel {
+        background: var(--bg-glass);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+    }
+
+    /* Hero Section */
+    .hero-premium {
+        position: relative;
+        z-index: 1;
+        padding: 40px 60px 80px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .hero-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 60px;
+    }
+
+    .status-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        color: var(--accent);
+        font-weight: 500;
+    }
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+        box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
+
+    .btn-download {
+        padding: 10px 24px;
+        background: linear-gradient(135deg, var(--accent), #16a34a);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .btn-download:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    .hero-main {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 80px;
+        align-items: center;
+    }
+
+    .hero-left {
+        padding-right: 40px;
+    }
+
+    .role-tag {
+        font-size: 1.1rem;
+        color: var(--orange);
+        font-weight: 500;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+
+    .hero-title-premium {
+        font-size: 5rem;
+        font-weight: 800;
+        line-height: 1.05;
+        margin-bottom: 30px;
+        letter-spacing: -2px;
+    }
+
+    .hero-title-premium span {
+        background: linear-gradient(135deg, var(--accent), #4ade80);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-desc-premium {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+        margin-bottom: 40px;
+    }
+
+    .hero-contact-row {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .contact-item i {
+        color: var(--accent);
+        font-size: 1rem;
+    }
+
+    /* Nav Pills */
+    .nav-pills {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .nav-pill {
+        padding: 12px 24px;
+        background: var(--bg-glass);
+        border: 1px solid var(--border);
+        border-radius: 50px;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nav-pill:hover, .nav-pill.active {
+        background: var(--accent);
+        color: #0a0a0a;
+        border-color: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    /* Hero Right - Image Card */
+    .hero-right {
+        position: relative;
+    }
+
+    .hero-image-card {
+        position: relative;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    }
+
+    .hero-image-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(249,115,22,0.2) 100%);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .hero-image-card img {
+        width: 100%;
+        height: 600px;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* Floating Info Card */
+    .float-info-card {
+        position: absolute;
+        bottom: -30px;
+        left: -30px;
+        background: var(--bg-glass);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 25px;
+        z-index: 10;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        animation: floatUp 6s ease-in-out infinite;
+    }
+
+    @keyframes floatUp {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+
+    .float-info-card h4 {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+
+    .float-info-card p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .price-highlight {
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 1.3rem;
+    }
+
+    /* Section 2 - Features Grid */
+    .features-premium {
+        position: relative;
+        z-index: 1;
+        padding: 60px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .features-grid-premium {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 40px;
+    }
+
+    .feature-left {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .feature-card-premium {
+        background: var(--bg-glass);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 30px;
+        transition: all 0.4s ease;
+    }
+
+    .feature-card-premium:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent);
+        box-shadow: 0 20px 40px rgba(34,197,94,0.1);
+    }
+
+    .feature-icon-premium {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--accent), #16a34a);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 20px var(--accent-glow);
+    }
+
+    .feature-card-premium h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+
+    .feature-card-premium p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* Right Side - Product Showcase */
+    .showcase-card {
+        background: var(--bg-glass);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .showcase-header {
+        padding: 30px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .showcase-header h3 {
+        font-size: 1.5rem;
+    }
+
+    .showcase-body {
+        padding: 30px;
+    }
+
+    .product-showcase-item {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+        background: rgba(255,255,255,0.02);
+        border-radius: 16px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+    }
+
+    .product-showcase-item:hover {
+        border-color: var(--border);
+        transform: translateX(10px);
+    }
+
+    .product-thumb {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+
+    .product-showcase-info h4 {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    .product-showcase-info p {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
+
+    .product-showcase-price {
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    /* Section 3 - Categories Strip */
+    .categories-strip {
+        position: relative;
+        z-index: 1;
+        padding: 40px 60px;
+        overflow: hidden;
+    }
+
+    .categories-marquee {
+        display: flex;
+        gap: 30px;
+        animation: marqueeScroll 30s linear infinite;
+    }
+
+    @keyframes marqueeScroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    .category-pill-premium {
+        flex-shrink: 0;
+        padding: 15px 35px;
+        background: var(--bg-glass);
+        border: 1px solid var(--border);
+        border-radius: 50px;
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .category-pill-premium:hover {
+        background: var(--accent);
+        color: #0a0a0a;
+        border-color: var(--accent);
+        transform: scale(1.05);
+    }
+
+    .category-pill-premium i {
+        font-size: 1.2rem;
+    }
+
+    /* Section 4 - CTA */
+    .cta-premium {
+        position: relative;
+        z-index: 1;
+        padding: 100px 60px;
+        text-align: center;
+    }
+
+    .cta-premium h2 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #fff, var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .cta-premium p {
+        color: var(--text-muted);
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+    }
+
+    .btn-cta-premium {
+        padding: 20px 50px;
+        background: linear-gradient(135deg, var(--accent), #16a34a);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 40px var(--accent-glow);
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-cta-premium:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 60px var(--accent-glow);
+    }
+
+    /* Footer */
+    .footer-premium {
+        border-top: 1px solid var(--border);
+        padding: 40px 60px;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 968px) {
+        .hero-premium { padding: 30px; }
+        .hero-main { grid-template-columns: 1fr; gap: 40px; }
+        .hero-title-premium { font-size: 3rem; }
+        .hero-image-card img { height: 400px; }
+        .float-info-card { left: 20px; bottom: -20px; }
+        .features-grid-premium { grid-template-columns: 1fr; }
+        .features-premium { padding: 30px; }
+        .cta-premium h2 { font-size: 2rem; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <!-- Ambient Background -->
+    <div class="ambient-glow">
+        <div class="glow-orb glow-1"></div>
+        <div class="glow-orb glow-2"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-premium">
+        <div class="hero-top-bar">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                Open for Delivery
+            </div>
+            <a href="{{ url_for('products.catalog') }}" class="btn-download">
+                Shop Now
+            </a>
+        </div>
+
+        <div class="hero-main">
+            <div class="hero-left">
+                <div class="role-tag">Fresh & Organic</div>
+                <h1 class="hero-title-premium">
+                    Fresh<span>Mart</span><br>
+                    Premium Grocery
+                </h1>
+                <p class="hero-desc-premium">
+                    Experience the finest selection of organic produce, artisan goods, and farm-fresh essentials.
+                    Delivered with care, sourced with integrity.
+                </p>
+
+                <div class="hero-contact-row">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        support@freshmart.com
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        +1 234 567 890
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Dhaka, Bangladesh
+                    </div>
+                </div>
+
+                <div class="nav-pills">
+                    <a href="{{ url_for('pages.index') }}" class="nav-pill active">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="{{ url_for('products.catalog') }}" class="nav-pill">
+                        <i class="fas fa-box"></i> Products
+                    </a>
+                    <a href="{{ url_for('pages.about') }}" class="nav-pill">
+                        <i class="fas fa-info-circle"></i> About
+                    </a>
+                    <a href="{{ url_for('auth.login') }}" class="nav-pill">
+                        <i class="fas fa-user"></i> Account
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div class="hero-image-card">
+                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&h=900&fit=crop" alt="Fresh Organic Food">
+                </div>
+                <div class="float-info-card">
+                    <h4>Organic Avocado</h4>
+                    <p>Fresh from farm</p>
+                    <span class="price-highlight">$4.99</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features & Products Section -->
+    <section class="features-premium">
+        <div class="features-grid-premium">
+            <div class="feature-left">
+                <div class="feature-card-premium">
+                    <div class="feature-icon-premium">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Fast Delivery</h3>
+                    <p>Free delivery on orders over $50. Express 15-minute delivery available in select areas.</p>
+                </div>
+
+                <div class="feature-card-premium">
+                    <div class="feature-icon-premium">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>100% Organic</h3>
+                    <p>All products certified organic. Direct partnerships with local farmers and producers.</p>
+                </div>
+
+                <div class="feature-card-premium">
+                    <div class="feature-icon-premium">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Quality Guaranteed</h3>
+                    <p>Not satisfied? Full refund within 30 days. No questions asked.</p>
+                </div>
+            </div>
+
+            <div class="showcase-card">
+                <div class="showcase-header">
+                    <h3>Trending Products</h3>
+                    <a href="{{ url_for('products.catalog') }}" style="color: var(--accent); text-decoration: none; font-weight: 600;">
+                        View All <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="showcase-body">
+                    {% for product in featured_products[:3] %}
+                    <div class="product-showcase-item">
+                        {% if product.image_url %}
+                            <img src="{{ url_for('static', filename='images/' + product.image_url) }}" class="product-thumb" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/80?text={{ product.name }}" class="product-thumb" alt="{{ product.name }}">
+                        {% endif %}
+                        <div class="product-showcase-info">
+                            <h4>{{ product.name }}</h4>
+                            <p>{{ product.category.name }}</p>
+                            <span class="product-showcase-price">${{ "%.2f"|format(product.get_price()) }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Marquee -->
+    <section class="categories-strip">
+        <div class="categories-marquee">
+            {% for category in categories %}
+            <a href="{{ url_for('products.catalog', category=category.slug) }}" class="category-pill-premium">
+                {% if category.name == 'Fresh Fruits' %}<<i class="fas fa-apple-alt"></i>
+                {% elif category.name == 'Vegetables' %}<<i class="fas fa-carrot"></i>
+                {% elif category.name == 'Dairy & Eggs' %}<<i class="fas fa-cheese"></i>
+                {% elif category.name == 'Bakery' %}<<i class="fas fa-bread-slice"></i>
+                {% elif category.name == 'Beverages' %}<<i class="fas fa-wine-bottle"></i>
+                {% else %}<<i class="fas fa-shopping-basket"></i>{% endif %}
+                {{ category.name }}
+            </a>
+            {% endfor %}
+            <!-- Duplicate for seamless loop -->
+            {% for category in categories %}
+            <a href="{{ url_for('products.catalog', category=category.slug) }}" class="category-pill-premium">
+                {% if category.name == 'Fresh Fruits' %}<<i class="fas fa-apple-alt"></i>
+                {% elif category.name == 'Vegetables' %}<<i class="fas fa-carrot"></i>
+                {% elif category.name == 'Dairy & Eggs' %}<<i class="fas fa-cheese"></i>
+                {% elif category.name == 'Bakery' %}<<i class="fas fa-bread-slice"></i>
+                {% elif category.name == 'Beverages' %}<<i class="fas fa-wine-bottle"></i>
+                {% else %}<<i class="fas fa-shopping-basket"></i>{% endif %}
+                {{ category.name }}
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-premium">
+        <h2>Ready to Order?</h2>
+        <p>Join thousands of happy customers enjoying fresh food delivered in minutes.</p>
+        <a href="{{ url_for('products.catalog') }}" class="btn-cta-premium">
+            Start Shopping <i class="fas fa-arrow-right"></i>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer-premium">
+        <p>&copy; 2026 FreshMart. Crafted with care in Dhaka, Bangladesh.</p>
+    </div>
+</div>
+{% endblock %}
